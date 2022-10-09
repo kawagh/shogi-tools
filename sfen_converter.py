@@ -3,6 +3,8 @@ from board import Board
 from piece import Piece
 
 
+INITIAL_SFEN = "lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL"
+
 SFEN_DICT: Dict[str, Piece] = {
     "l": Piece.ENEMY_LANCE,
     "n": Piece.ENEMY_KNIGHT,

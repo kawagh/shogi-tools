@@ -1,7 +1,7 @@
 from typing import Dict
 import argparse
+from move import Move
 from pprint import pprint
-from dataclasses import dataclass
 
 
 def parse_args() -> argparse.Namespace:
@@ -14,15 +14,6 @@ def parse_args() -> argparse.Namespace:
     )
     args = parser.parse_args()
     return args
-
-
-@dataclass
-class Move:
-    from_row: int
-    from_col: int
-    to_row: int
-    to_col: int
-    promote: bool = False
 
 
 def parse_move(move: str) -> Move:
