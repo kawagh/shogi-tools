@@ -166,7 +166,7 @@ def write_piece(f: TextIOWrapper, char: str, row: int, col: int, rotate: bool = 
 
 def main():
     board = Board(grid=initialize_grid())
-    with open("out.svg", "w") as f:
+    with open("board.svg", "w") as f:
         write_svg(f, board)
 
 
