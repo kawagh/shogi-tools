@@ -1,6 +1,7 @@
 from kif_parser import parse_move
 from sfen_converter import convert
 from svg_board import write_svg
+import subprocess
 from move import Move
 
 
@@ -11,11 +12,13 @@ def main():
     with open("from_sfen.svg", "w") as f:
         write_svg(f, board)
 
+    subprocess.run(["eog", "from_sfen.svg"])
+
     move: Move = parse_move("７六歩(77)")
     board.process_move(move)
-
-    with open("from_sfen_after_move.svg", "w") as f:
+    with open("from_sfen.svg", "w") as f:
         write_svg(f, board)
+    subprocess.run(["eog", "from_sfen.svg"])
 
 
 if __name__ == "__main__":
