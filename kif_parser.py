@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, List
 import argparse
 from move import Move
 from pprint import pprint
@@ -28,22 +28,24 @@ def parse_move(move: str) -> Move:
         from_row = -1
         from_col = -1
     else:
-        from_row = int(move[-3]) - 1
-        from_col = 9 - int(move[-2])  # 1-index
+        from_row = int(move[-2]) - 1
+        from_col = 9 - int(move[-3])  # 1-index
     to_row = dan.index(move[1])
     to_col = 8 - suji.index(move[0])  # 0-index
 
     return Move(from_row, from_col, to_row, to_col, move.endswith("成"))
 
 
-def main():
-    """parse .kif file"""
-    args = parse_args()
-    kif_info: Dict[str, str] = {}
-    with open(args.file, "r") as f:
+class KifParser:
+    def __init__(self, file: str):
+        self.file = open(file, "r")
+        self.kif_info: Dict[str, str] = {}
+        self.moves: List[Move] = []
+
+    def parse(self):
         separator = "："
         kif_started = False
-        while line := f.readline().rstrip():
+        while line := self.file.readline().rstrip():
             if line[:2] == "手数":
                 kif_started = True
                 continue
@@ -56,6 +58,7 @@ def main():
                 elif len(move_info) == 3:
                     move_index, move, time = move_info
                     print(move_index, move, time)
+                    self.moves.append(parse_move(move))
                 else:
                     raise RuntimeError("unexpected")
             else:
@@ -65,8 +68,15 @@ def main():
                     key = line[:index]
                     value = line[index + 1 :]
                     print(key, value)
-                    kif_info[key] = value
-    pprint(kif_info)
+                    self.kif_info[key] = value
+        pprint(self.kif_info)
+
+
+def main():
+    """parse .kif file"""
+    args = parse_args()
+    parser = KifParser(args.file)
+    parser.parse()
 
 
 if __name__ == "__main__":
