@@ -1,6 +1,7 @@
 from typing import Dict
 import argparse
 from pprint import pprint
+from dataclasses import dataclass
 
 
 def parse_args() -> argparse.Namespace:
@@ -13,6 +14,35 @@ def parse_args() -> argparse.Namespace:
     )
     args = parser.parse_args()
     return args
+
+
+@dataclass
+class Move:
+    from_row: int
+    from_col: int
+    to_row: int
+    to_col: int
+    promote: bool = False
+
+
+def parse_move(move: str) -> Move:
+    """
+    example
+    ６六銀(77)
+    ８四角打
+    """
+    dan = "一二三四五六七八九"
+    suji = "１２３４５６７８９"
+    if "打" in move:
+        from_row = -1
+        from_col = -1
+    else:
+        from_row = int(move[-3]) - 1
+        from_col = 9 - int(move[-2])  # 1-index
+    to_row = dan.index(move[1])
+    to_col = 8 - suji.index(move[0])  # 0-index
+
+    return Move(from_row, from_col, to_row, to_col, move.endswith("成"))
 
 
 def main():
