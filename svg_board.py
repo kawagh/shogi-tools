@@ -48,6 +48,13 @@ PIECE_DICT: Dict[Piece, str] = {
     Piece.BISHOP: "角",
     Piece.ROOK: "飛",
     Piece.KING: "王",
+    Piece.PROMOTED_PAWN: "と",
+    Piece.PROMOTED_LANCE: "杏",
+    Piece.PROMOTED_KNGIHT: "圭",
+    Piece.PROMOTED_SILVER: "全",
+    Piece.PROMOTED_BISHOP: "馬",
+    Piece.PROMOTED_ROOK: "龍",
+    # enemy
     Piece.ENEMY_PAWN: "歩",
     Piece.ENEMY_LANCE: "香",
     Piece.ENEMY_KNIGHT: "桂",
@@ -56,6 +63,12 @@ PIECE_DICT: Dict[Piece, str] = {
     Piece.ENEMY_BISHOP: "角",
     Piece.ENEMY_ROOK: "飛",
     Piece.ENEMY_KING: "王",
+    Piece.ENEMY_PROMOTED_PAWN: "と",
+    Piece.ENEMY_PROMOTED_LANCE: "杏",
+    Piece.ENEMY_PROMOTED_KNGIHT: "圭",
+    Piece.ENEMY_PROMOTED_SILVER: "全",
+    Piece.ENEMY_PROMOTED_BISHOP: "馬",
+    Piece.ENEMY_PROMOTED_ROOK: "龍",
 }
 
 
@@ -117,10 +130,7 @@ def initialize_grid():
     return _grid
 
 
-board = Board(grid=initialize_grid())
-
-
-def write_svg(f: TextIOWrapper):
+def write_svg(f: TextIOWrapper, board: Board):
     header = '<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">'
     f.write(header)
 
@@ -155,8 +165,9 @@ def write_piece(f: TextIOWrapper, char: str, row: int, col: int, rotate: bool = 
 
 
 def main():
+    board = Board(grid=initialize_grid())
     with open("out.svg", "w") as f:
-        write_svg(f)
+        write_svg(f, board)
 
 
 if __name__ == "__main__":
