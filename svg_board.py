@@ -93,10 +93,12 @@ def write_piece(
     last_move: bool = False,
 ):
     style = 'style="font-weight:bold;"' if last_move else ""
-    if rotate:
-        content = f'<text x="{10+col*SIDE_LENGTH}" y="{10+SIDE_LENGTH+row*SIDE_LENGTH-5}" font-size="40" transform="rotate(180,{10+col*SIDE_LENGTH+SIDE_LENGTH//2},{10+SIDE_LENGTH//2+row*SIDE_LENGTH})" {style}> {char} </text>'
-    else:
-        content = f'<text x="{10+col*SIDE_LENGTH}" y="{10+SIDE_LENGTH+row*SIDE_LENGTH-5}" font-size="40" {style}> {char} </text>'
+    rotate_transform = (
+        f'transform="rotate(180,{10+col*SIDE_LENGTH+SIDE_LENGTH//2},{10+SIDE_LENGTH//2+row*SIDE_LENGTH})"'
+        if rotate
+        else ""
+    )
+    content = f'<text x="{10+col*SIDE_LENGTH}" y="{10+SIDE_LENGTH+row*SIDE_LENGTH-5}" font-size="40" {rotate_transform} {style}> {char} </text>'
     f.write(content)
 
 
