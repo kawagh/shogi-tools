@@ -22,10 +22,11 @@ def main():
     for i, move in enumerate(kif_parser.moves, 1):
         print(move)
         board.process_move(move)
-        with open(save_dir / f"from_sfen{i:03}.svg", "w") as f:
+        save_name = save_dir / f"from_sfen{i:03}.svg"
+        with open(save_name, "w") as f:
             write_svg(f, board)
         if show_svg:
-            subprocess.run(["eog", "from_sfen.svg"])
+            subprocess.run(["eog", save_name])
 
 
 if __name__ == "__main__":
