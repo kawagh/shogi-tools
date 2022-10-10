@@ -14,3 +14,16 @@ def test_process_move():
 
     assert board.grid[6][2] == Piece.EMPTY, "着手後に駒が残っている"
     assert board.grid[5][2] == Piece.PAWN, "着手先の駒が存在していない"
+
+
+def test_process_move_updates_komadai():
+    board: Board = convert(INITIAL_SFEN)
+    moves = [
+        parse_move("７六歩(77)"),
+        parse_move("３四歩(33)"),
+        parse_move("２二角成(88)"),
+    ]
+    for move in moves:
+        board.process_move(move)
+    print(board.komadai)
+    assert board.komadai[Piece.BISHOP] == 1
