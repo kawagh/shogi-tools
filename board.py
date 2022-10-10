@@ -2,8 +2,11 @@ from collections import defaultdict
 from typing import DefaultDict, List, Optional
 from move import Move
 from piece import (
+    PIECE_DICT,
     Piece,
     convert_piece_side,
+    is_enemy_piece,
+    is_my_piece,
     is_promoted_piece,
     reverse_promote,
 )
@@ -34,6 +37,32 @@ class Board:
             self.komadai[converted_removed_piece] += 1
 
         self.grid[move.to_row][move.to_col] = piece_type
+
+    @property
+    def my_komadai(self) -> str:
+        """
+        example: "歩歩歩"
+        """
+        return "".join(
+            (
+                PIECE_DICT[piece] * v
+                for piece, v in self.komadai.items()
+                if is_my_piece(piece)
+            )
+        )
+
+    @property
+    def enemy_komadai(self) -> str:
+        """
+        example: "歩歩歩"
+        """
+        return "".join(
+            (
+                PIECE_DICT[piece] * v
+                for piece, v in self.komadai.items()
+                if is_enemy_piece(piece)
+            )
+        )
 
 
 def initialize_grid() -> List[List[Piece]]:

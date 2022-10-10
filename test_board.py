@@ -27,3 +27,15 @@ def test_process_move_updates_komadai():
         board.process_move(move)
     print(board.komadai)
     assert board.komadai[Piece.BISHOP] == 1
+
+
+def test_board_my_komadai():
+    board: Board = convert(INITIAL_SFEN)
+    moves = [
+        parse_move("７六歩(77)"),
+        parse_move("３四歩(33)"),
+        parse_move("２二角成(88)"),
+    ]
+    for move in moves:
+        board.process_move(move)
+    assert board.my_komadai == "角"

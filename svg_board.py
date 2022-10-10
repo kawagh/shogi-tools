@@ -1,12 +1,16 @@
 from io import TextIOWrapper
+import subprocess
 from board import Board, initialize_grid
 from piece import is_enemy_piece, PIECE_DICT
+from kif_parser import parse_move
 
 SIDE_LENGTH = 40
+CANVAS_WIDTH = 440
+CANVAS_HEIGHT = 440
 
 
 def write_svg(f: TextIOWrapper, board: Board):
-    header = '<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">'
+    header = f'<svg width="{CANVAS_WIDTH}" height="{CANVAS_HEIGHT}" xmlns="http://www.w3.org/2000/svg">'
     f.write(header)
 
     write_content(f, board)
@@ -37,6 +41,17 @@ def write_content(f: TextIOWrapper, board: Board):
                     is_enemy_piece(board.grid[i][j]),
                     is_last_move,
                 )
+    write_komadai(f, board)
+
+
+def write_komadai(f: TextIOWrapper, board: Board):
+    komadai_text = board.my_komadai + "|" + board.enemy_komadai
+    my_komadai = f'<rect x="10" y="{CANVAS_HEIGHT-SIDE_LENGTH}" height="{SIDE_LENGTH}" width="{SIDE_LENGTH*9}" fill="white"/>'
+    f.write(my_komadai)
+    komadai_svg = (
+        f'<text x="10" y="{CANVAS_HEIGHT}" font-size="25"> {komadai_text} </text>'
+    )
+    f.write(komadai_svg)
 
 
 def write_piece(
@@ -59,8 +74,16 @@ def write_piece(
 
 def main():
     board = Board(grid=initialize_grid())
+    moves = [
+        parse_move("７六歩(77)"),
+        parse_move("３四歩(33)"),
+        parse_move("２二角成(88)"),
+    ]
+    for move in moves:
+        board.process_move(move)
     with open("board.svg", "w") as f:
         write_svg(f, board)
+    subprocess.run(["eog", "board.svg"])
 
 
 if __name__ == "__main__":
