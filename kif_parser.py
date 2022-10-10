@@ -34,7 +34,10 @@ def parse_move(move: str) -> Move:
     to_row = dan.index(move[1])
     to_col = 8 - suji.index(move[0])  # 0-index
 
-    return Move(from_row, from_col, to_row, to_col, move.endswith("成"))
+    print(move)
+    is_promote = move.find("(") != -1 and move[move.index("(") - 1] == "成"
+
+    return Move(from_row, from_col, to_row, to_col, is_promote)
 
 
 class KifParser:

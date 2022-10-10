@@ -4,6 +4,7 @@ from move import Move
 from piece import (
     PIECE_DICT,
     PIECE_SIDE_OFFSET,
+    PROMOTE_OFFSET,
     Piece,
     convert_piece_side,
     is_enemy_piece,
@@ -31,7 +32,12 @@ class Board:
                 piece_type = Piece(move.from_col)
             self.komadai[piece_type] -= 1
         else:
-            piece_type = self.grid[move.from_row][move.from_col]
+            if move.promote:
+                piece_type = Piece(
+                    self.grid[move.from_row][move.from_col] + PROMOTE_OFFSET
+                )
+            else:
+                piece_type = self.grid[move.from_row][move.from_col]
             self.grid[move.from_row][move.from_col] = Piece.EMPTY
 
         # move piece to komadai if piece exists
