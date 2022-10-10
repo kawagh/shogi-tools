@@ -1,3 +1,4 @@
+from piece import Piece
 from kif_parser import Move, parse_move
 
 
@@ -10,4 +11,6 @@ def test_parse_move():
 def test_parse_move_from_komadai():
     move = "８四角打"
     parsed_move = parse_move(move)
-    assert parsed_move == Move(from_row=-1, from_col=-1, to_row=3, to_col=1)
+    assert parsed_move == Move(
+        from_row=-1, from_col=Piece.BISHOP.value, to_row=3, to_col=1
+    )

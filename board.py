@@ -3,6 +3,7 @@ from typing import DefaultDict, List, Optional
 from move import Move
 from piece import (
     PIECE_DICT,
+    PIECE_SIDE_OFFSET,
     Piece,
     convert_piece_side,
     is_enemy_piece,
@@ -18,15 +19,20 @@ class Board:
     grid: List[List[Piece]]
     last_move: Optional[Move] = None
     komadai: DefaultDict[Piece, int] = field(default_factory=lambda: defaultdict(int))
+    turn: int = 0
 
     def process_move(self, move: Move):
         self.last_move = move
-        if move.from_row != -1 or move.from_col != -1:
+        if move.is_from_komadai():
+            #  specify whose move and added offset
+            if self.is_enemy_turn():
+                piece_type = Piece(move.from_col + PIECE_SIDE_OFFSET)
+            else:
+                piece_type = Piece(move.from_col)
+            self.komadai[piece_type] -= 1
+        else:
             piece_type = self.grid[move.from_row][move.from_col]
             self.grid[move.from_row][move.from_col] = Piece.EMPTY
-        else:
-            # FIXME specify pieceType in komadai case
-            piece_type = Piece.ENEMY_KING
 
         # move piece to komadai if piece exists
         removed_piece = self.grid[move.to_row][move.to_col]
@@ -37,6 +43,7 @@ class Board:
             self.komadai[converted_removed_piece] += 1
 
         self.grid[move.to_row][move.to_col] = piece_type
+        self.turn += 1
 
     @property
     def my_komadai(self) -> str:
@@ -63,6 +70,12 @@ class Board:
                 if is_enemy_piece(piece)
             )
         )
+
+    def is_my_turn(self) -> bool:
+        return self.turn % 2 == 0
+
+    def is_enemy_turn(self) -> bool:
+        return self.turn % 2 == 1
 
 
 def initialize_grid() -> List[List[Piece]]:

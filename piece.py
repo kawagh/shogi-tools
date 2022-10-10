@@ -70,6 +70,17 @@ PIECE_DICT: Dict[Piece, str] = {
     Piece.ENEMY_PROMOTED_ROOK: "龍",
 }
 
+NAME_TO_PIECE: Dict[str, Piece] = {
+    "歩": Piece.PAWN,
+    "香": Piece.LANCE,
+    "桂": Piece.KNIGHT,
+    "銀": Piece.SILVER,
+    "金": Piece.GOLD,
+    "角": Piece.BISHOP,
+    "飛": Piece.ROOK,
+    "王": Piece.KING,
+}
+
 
 def convert_piece_side(piece: Piece) -> Piece:
     if is_my_piece(piece):

@@ -1,6 +1,7 @@
 from typing import Dict, List
 import argparse
 from move import Move
+from piece import NAME_TO_PIECE
 from pprint import pprint
 
 
@@ -26,7 +27,7 @@ def parse_move(move: str) -> Move:
     suji = "１２３４５６７８９"
     if "打" in move:
         from_row = -1
-        from_col = -1
+        from_col: int = NAME_TO_PIECE[move[move.index("打") - 1]].value  # piece type
     else:
         from_row = int(move[-2]) - 1
         from_col = 9 - int(move[-3])  # 1-index
