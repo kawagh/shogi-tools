@@ -1,6 +1,9 @@
 from typing import Dict
 from enum import IntEnum, unique
 
+PIECE_SIDE_OFFSET = 15
+PROMOTE_OFFSET = 8
+
 
 @unique
 class Piece(IntEnum):
@@ -66,6 +69,26 @@ PIECE_DICT: Dict[Piece, str] = {
     Piece.ENEMY_PROMOTED_BISHOP: "馬",
     Piece.ENEMY_PROMOTED_ROOK: "龍",
 }
+
+
+def convert_piece_side(piece: Piece) -> Piece:
+    if is_my_piece(piece):
+        return Piece(piece.value + PIECE_SIDE_OFFSET)
+    if is_enemy_piece(piece):
+        return Piece(piece.value - PIECE_SIDE_OFFSET)
+    raise ValueError("piece seems to belong no side")
+
+
+def reverse_promote(piece: Piece) -> Piece:
+    if is_promoted_piece(piece):
+        return Piece(piece.value - PROMOTE_OFFSET)
+    raise ValueError("piece is originally not promoted")
+
+
+def is_promoted_piece(piece: Piece) -> bool:
+    return (Piece.PROMOTED_PAWN <= piece.value <= Piece.PROMOTED_ROOK) or (
+        Piece.ENEMY_PROMOTED_PAWN <= piece.value <= Piece.ENEMY_PROMOTED_ROOK
+    )
 
 
 def is_my_piece(piece: Piece) -> bool:
