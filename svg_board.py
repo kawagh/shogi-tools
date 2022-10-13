@@ -7,6 +7,7 @@ from kif_parser import parse_move
 SIDE_LENGTH = 40
 CANVAS_WIDTH = 440
 CANVAS_HEIGHT = 440
+PROMOTED_CHARACTERS = {"と", "龍", "馬", "全", "杏", "圭"}
 
 
 def write_svg(f: TextIOWrapper, board: Board):
@@ -63,12 +64,13 @@ def write_piece(
     last_move: bool = False,
 ):
     style = 'style="font-weight:bold;"' if last_move else ""
+    fill_color = 'fill="red"' if char in PROMOTED_CHARACTERS else 'fill="black"'
     rotate_transform = (
         f'transform="rotate(180,{10+col*SIDE_LENGTH+SIDE_LENGTH//2},{10+SIDE_LENGTH//2+row*SIDE_LENGTH})"'
         if rotate
         else ""
     )
-    content = f'<text x="{10+col*SIDE_LENGTH}" y="{10+SIDE_LENGTH+row*SIDE_LENGTH-5}" font-size="40" {rotate_transform} {style}> {char} </text>'
+    content = f'<text x="{10+col*SIDE_LENGTH}" y="{10+SIDE_LENGTH+row*SIDE_LENGTH-5}" font-size="40" {rotate_transform} {style} {fill_color}> {char} </text>'
     f.write(content)
 
 
