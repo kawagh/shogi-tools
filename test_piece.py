@@ -1,4 +1,4 @@
-from piece import *
+from piece import Piece, convert_piece_side, reverse_promote
 import pytest
 
 
