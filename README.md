@@ -2,6 +2,9 @@
 
 A tool to write shogi-board `.svg` file from `.kif` file.
 
+https://user-images.githubusercontent.com/45124565/195773264-a09c5335-eae0-4720-bdbe-7f5c0ece6a48.mp4
+
+
 ```python
 board = Board(grid=initialize_grid())
 moves = [
