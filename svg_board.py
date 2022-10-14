@@ -12,7 +12,7 @@ PROMOTED_CHARACTERS = {"と", "龍", "馬", "全", "杏", "圭"}
 
 def write_svg(f: TextIOWrapper, board: Board):
     header = (
-        f'<svg width="{CANVAS_WIDTH}" height="{CANVAS_HEIGHT}"'
+        f'<svg width="{CANVAS_WIDTH}" height="{CANVAS_HEIGHT}" '
         'xmlns="http://www.w3.org/2000/svg">'
     )
     f.write(header)
@@ -35,7 +35,7 @@ def write_content(f: TextIOWrapper, board: Board):
 
             content = (
                 f'<rect width="{SIDE_LENGTH}" height="{SIDE_LENGTH}"'
-                ' x="{10+j*SIDE_LENGTH}" y="{10+i*SIDE_LENGTH}"'
+                f' x="{10+j*SIDE_LENGTH}" y="{10+i*SIDE_LENGTH}"'
                 f' fill="{fill_color}" stroke="gray" />\n'
             )
             f.write(content)
