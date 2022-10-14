@@ -1,4 +1,5 @@
 *.kif
 *.svg
+!board.svg
 *.png
 *.mp4
